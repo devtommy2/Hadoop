@@ -27,6 +27,7 @@ public class FlowDriver {
 
 //        FileInputFormat.setInputPaths(job, new Path(args[0]));
 //        FileOutputFormat.setOutputPath(job, new Path(args[1]));
+        // 输出路径不能存在，无论是在hdfs还是在win本地，都不能是一个已经存在的文件夹，否则会抛出异常
         FileInputFormat.setInputPaths(job, new Path("C:\\Users\\TOMMY\\Desktop\\phone.txt"));
         FileOutputFormat.setOutputPath(job, new Path("C:\\Users\\TOMMY\\Desktop\\output"));
 
