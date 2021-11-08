@@ -23,7 +23,9 @@ CombineTextInputFormat
 最终会形成3个切片，大小分别为：
 （1.7+2.55）M，（2.55+3.4）M，（3.4+3.4）M
 <br>
+
 **如何使用：**
+
 <br>
 在驱动类中加入下面的代码：
 
@@ -39,7 +41,7 @@ CombineTextInputFormat.setMaxInputSplitSize(job, 4194304);
 完成之后直接运行程序会发现结果和原来有区别了。
 
 **总结**
-
+ 
 <br>
 - 默认是TextInputFormat按行读取
 - 使用CombineTextInputFormat进行处理小文件的情况
