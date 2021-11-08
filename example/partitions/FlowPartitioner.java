@@ -3,6 +3,8 @@ package com.tommy.partitioner;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Partitioner;
 
+
+// shuffle的数据来自于map，所以这里的泛型和map的输出KV的泛型一样
 public class FlowPartitioner extends Partitioner<Text, FlowBean> {
 
     @Override
