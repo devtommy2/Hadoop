@@ -1,0 +1,5 @@
+- combiner是MR程序中Mapper和Reducer之外的一个组件
+- Combiner的父类是Reducer
+- 二者的区别在于运行位置：Combiner是在每一个MapTask运行的节点上进行的，reducer是接受全局的Mapper输出结果
+- 意义是对局部的MapTask输出进行局部汇总，以减少网络传输量
+- 它能应用的前提是不能影响最终的业务逻辑
