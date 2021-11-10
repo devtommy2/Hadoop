@@ -101,3 +101,59 @@ public class MapJoinMapper extends Mapper<LongWritable, Text, Text, NullWritable
 ```
 
 将缓存中的数据直接存储在HashMap中（初始化方法），然后在map方法中拼接字符串，封装后直接输出context.write()。
+
+Driver方法：
+
+```java
+package com.tommy.mapJoin;
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.NullWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+public class MapJoinDriver {
+    public static void main(String[] args) throws IOException, URISyntaxException, InterruptedException, ClassNotFoundException {
+
+        // 1 获取job信息
+        Configuration conf = new Configuration();
+        Job job = Job.getInstance(conf);
+
+        // 2 设置加载jar包路径
+        job.setJarByClass(MapJoinDriver.class);
+
+        // 3 关联mapper
+        job.setMapperClass(MapJoinMapper.class);
+
+        // 4 设置Map输出KV类型
+        job.setMapOutputKeyClass(Text.class);
+        job.setMapOutputValueClass(NullWritable.class);
+
+        // 5 设置最终输出KV类型
+        job.setOutputKeyClass(Text.class);
+        job.setOutputValueClass(NullWritable.class);
+
+        // 加载缓存数据
+        job.addCacheFile(new URI("file:///C:/Users/TOMMY/Desktop/input/pd.txt"));
+
+        // Map端Join的逻辑不需要Reduce阶段，设置reduceTask数量为0
+        job.setNumReduceTasks(0);
+
+        // 6 设置输入输出路径
+        FileInputFormat.setInputPaths(job, new Path("C:\\Users\\TOMMY\\Desktop\\input\\order.txt"));
+        FileOutputFormat.setOutputPath(job, new Path("C:\\Users\\TOMMY\\Desktop\\output"));
+
+        // 7 提交
+        boolean b = job.waitForCompletion(true);
+        System.exit(b ? 0 : 1);
+    }
+}
+
+```
